@@ -16,10 +16,9 @@ def send_email(subject, body, to_email, from_email, password):
 
     try:
         # Connect to Gmail's SMTP server
-        server = smtplib.SMTP('smtp.gmail.com', 465)
+        server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
         server.login(from_email, password)
-
         # Send the message
         server.send_message(msg)
         server.quit()

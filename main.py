@@ -1,7 +1,9 @@
-# main.py
-
 from scripts.query_handler import get_answer
 from scripts.email_sender import send_email
+
+# Hardcoded sender credentials
+FROM_EMAIL = ""
+APP_PASSWORD = ""
 
 def main():
     print("\nWelcome to AI Document Query and Email Bot!")
@@ -23,13 +25,9 @@ def main():
         send_option = input("\n📧 Do you want to send this answer to your email? (yes/no): ").strip().lower()
         if send_option == "yes":
             to_email = input("Recipient Email: ").strip()
-            from_email = input("Your Gmail Address: ").strip()
-            password = input("Your Gmail Password or App Password: ").strip()
-
             subject = "Your AI Answer"
             body = answers[0]
-
-            send_email(subject, body, to_email, from_email, password)
+            send_email(subject, body, to_email, FROM_EMAIL, APP_PASSWORD)
 
 if __name__ == "__main__":
     main()

@@ -4,14 +4,12 @@ import pickle
 import faiss
 from extract_text import extract_text_from_pdfs
 
-# Dummy embedding function — replace with your own embedder
+# Use sentence-transformers for real embeddings
+from sentence_transformers import SentenceTransformer
+
 def embed_texts(texts):
-    import numpy as np
-    embeddings = []
-    for text in texts:
-        # For example, embedding size 128, random vector
-        vec = np.random.rand(128).astype('float32')
-        embeddings.append(vec)
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+    embeddings = model.encode(texts, convert_to_numpy=True)
     return embeddings
 
 def main():
@@ -19,9 +17,9 @@ def main():
     texts = extract_text_from_pdfs(pdf_folder)
     embeddings = embed_texts(texts)
 
-    dim = len(embeddings[0])
+    dim = embeddings.shape[1]
     index = faiss.IndexFlatL2(dim)
-    index.add(np.array(embeddings))
+    index.add(embeddings)
 
     if not os.path.exists('embeddings'):
         os.makedirs('embeddings')
