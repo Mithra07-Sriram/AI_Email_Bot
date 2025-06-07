@@ -11,7 +11,6 @@ def extract_text_from_pdfs(pdf_folder_path):
                 reader = PdfReader(f)
                 for page in reader.pages:
                     text = page.extract_text() or ''
-                    # Split by numbered steps (e.g., "1.", "2.", etc.)
                     steps = re.split(r'(?=\d+\.\s)', text)
                     for step in steps:
                         step = step.strip()

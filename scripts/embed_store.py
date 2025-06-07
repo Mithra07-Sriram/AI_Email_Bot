@@ -3,10 +3,8 @@ import os
 import pickle
 import faiss
 from extract_text import extract_text_from_pdfs
-
 # Use sentence-transformers for real embeddings
 from sentence_transformers import SentenceTransformer
-
 def embed_texts(texts):
     model = SentenceTransformer('all-MiniLM-L6-v2')
     embeddings = model.encode(texts, convert_to_numpy=True)

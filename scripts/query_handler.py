@@ -2,16 +2,13 @@ import pickle
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
-
 def load_index_and_sentences():
     index = faiss.read_index("embeddings/faiss_index.idx")
     with open("embeddings/sentences.pkl", "rb") as f:
         sentences = pickle.load(f)
     return index, sentences
-
 # Load model once for efficiency
 model = SentenceTransformer('all-MiniLM-L6-v2')
-
 def embed_query(query):
     return model.encode([query], convert_to_numpy=True)[0]
 

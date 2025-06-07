@@ -2,8 +2,8 @@ from scripts.query_handler import get_answer
 from scripts.email_sender import send_email
 
 # Hardcoded sender credentials
-FROM_EMAIL = ""
-APP_PASSWORD = ""
+FROM_EMAIL = "mithrasriram07@gmail.com"
+APP_PASSWORD = "lwdvwbozzqtfylth"
 
 def main():
     print("\nWelcome to AI Document Query and Email Bot!")
