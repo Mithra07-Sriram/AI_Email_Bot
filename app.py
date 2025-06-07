@@ -2,6 +2,10 @@ import streamlit as st
 from scripts.query_handler import get_answer
 from scripts.email_sender import send_email
 
+# Owner's sender credentials (hardcoded)
+FROM_EMAIL = ""
+APP_PASSWORD = ""
+
 st.set_page_config(page_title="AI Document Query and Email Bot")
 
 if "logged_in" not in st.session_state:
@@ -11,17 +15,14 @@ st.title("📄 AI Document Query and Email Bot")
 
 if not st.session_state.logged_in:
     st.header("Login")
-    email = st.text_input("Your Gmail Address")
-    password = st.text_input("Your Gmail App Password", type="password")
+    email = st.text_input("Your Email Address (to receive answers)")
     if st.button("Login"):
-        # Simple check (you can add real validation if needed)
-        if email and password:
+        if email:
             st.session_state.logged_in = True
             st.session_state.email = email
-            st.session_state.password = password
             st.success("Logged in successfully!")
         else:
-            st.error("Please enter both email and password.")
+            st.error("Please enter your email address.")
 else:
     st.header("Ask a Question")
     query = st.text_input("Type your question about your documents:")
@@ -29,15 +30,14 @@ else:
         if query.strip():
             answers = get_answer(query, top_k=1)
             if answers:
-                st.success("Answer sent to your email!")
-                # Automatically send answer to user's email
                 send_email(
                     subject="Your AI Document Answer",
                     body=answers[0],
                     to_email=st.session_state.email,
-                    from_email=st.session_state.email,
-                    password=st.session_state.password
+                    from_email=FROM_EMAIL,
+                    password=APP_PASSWORD
                 )
+                st.success("Answer sent to your email!")
                 st.write("**Answer:**")
                 st.write(answers[0])
             else:
@@ -47,4 +47,4 @@ else:
 
     if st.button("Logout"):
         st.session_state.logged_in = False
-        st.experimental_rerun()
+        st.rerun()
